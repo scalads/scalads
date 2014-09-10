@@ -9,8 +9,6 @@ class DoubleNode[T](val data:T) {
   var previous: Option[DoubleNode[T]] = None
 }
 
-//todo parameterize the node type and pass the head argument as constructor to this trait
-// after that the size method can be defined in this trait
 trait LinkedList[T] {
   def insertAfter(node: Node[T], newNode: Node[T]): Unit
 
