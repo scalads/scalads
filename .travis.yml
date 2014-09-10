@@ -4,3 +4,4 @@ jdk:
 sudo: false
 scala:
   - 2.11.2
+script: sbt test
