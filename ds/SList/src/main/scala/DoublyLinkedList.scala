@@ -1,6 +1,6 @@
 package ds.linkedlist
 
-class DoublyLinkedList[T](var head: Option[DoubleNode[T]] = None) extends LinkedList[T] {
+class DoublyLinkedList[T](var head: Option[DoubleNode[T]] = None) extends LinkedList[T, DoubleNode[T]] {
   def insertBeginning(newNode: DoubleNode[T]) = {
     newNode.next = head orElse None
     if (head.isDefined) {
@@ -21,7 +21,9 @@ class DoublyLinkedList[T](var head: Option[DoubleNode[T]] = None) extends Linked
   def removeAfter(node: DoubleNode[T]): Unit = {
     if (node.next.isDefined) {
       node.next = node.next.get.next
-      node.next.get.previous = Some(node)
+      if (node.next.isDefined) {
+        node.next.get.previous = Some(node)
+      }
     }
   }
 
@@ -37,9 +39,11 @@ class DoublyLinkedList[T](var head: Option[DoubleNode[T]] = None) extends Linked
 
   def size = {
     var currSize = 0
-    while (head != None) {
-      head = head.get.next
+    var currPos = head
+    while (currPos != None) {
+      currPos = currPos.get.next
       currSize = currSize + 1
     }
     currSize
   }
+}

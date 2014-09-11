@@ -1,6 +1,6 @@
 package ds.linkedlist;
 
-class SinglyLinkedListWithSentinel[T] extends LinkedList[T] {
+class SinglyLinkedListWithSentinel[T] extends LinkedList[T, Node[T]] {
   val head:Option[Node[T]] = Some(new Node(null.asInstanceOf[T])) // default value of T
 
   def insertBeginning(newNode: Node[T]) = {

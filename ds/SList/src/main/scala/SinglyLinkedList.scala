@@ -1,6 +1,6 @@
 package ds.linkedlist;
 
-class SinglyLinkedList[T](var head: Option[Node[T]] = None) extends LinkedList[T] {
+class SinglyLinkedList[T](var head: Option[Node[T]] = None) extends LinkedList[T, Node[T]] {
   def insertBeginning(newNode: Node[T]) = {
     newNode.next = head orElse None
     head = Some(newNode)
@@ -27,8 +27,9 @@ class SinglyLinkedList[T](var head: Option[Node[T]] = None) extends LinkedList[T
 
   def size = {
     var currSize = 0
-    while (head != None) {
-      head = head.get.next
+    var currPos = head
+    while (currPos != None) {
+      currPos = currPos.get.next
       currSize = currSize + 1
     }
     currSize
