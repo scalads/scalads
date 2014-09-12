@@ -1,19 +1,24 @@
-package ds.linkedlist;
+package ds.linkedlist
 
 trait AbstractNode[T] {
-  val data:T
+  val data: T
 }
 
-class Node[T](override val data: T) extends AbstractNode[T] {
-  var next: Option[Node[T]] = None
+trait AbstractLinkedNode[T] extends AbstractNode[T] {
+  type nodeType
+  var next: Option[nodeType] = None // every linked node will have a next element
 }
 
-class DoubleNode[T](override val data:T) extends AbstractNode[T] {
-  var next: Option[DoubleNode[T]] = None
-  var previous: Option[DoubleNode[T]] = None
+class SingleNode[T](override val data: T) extends AbstractLinkedNode[T] {
+  type nodeType = SingleNode[T]
 }
 
-trait LinkedList[T, nodeType <: AbstractNode[T]] {
+class DoubleNode[T](override val data: T) extends AbstractLinkedNode[T] {
+  type nodeType = DoubleNode[T]
+  var previous: Option[nodeType] = None
+}
+
+abstract class LinkedList[T, nodeType <: AbstractLinkedNode[T]](var head: Option[nodeType] = None) {
   def insertAfter(node: nodeType, newNode: nodeType): Unit
 
   def insertBeginning(newNode: nodeType): Unit
@@ -21,5 +26,15 @@ trait LinkedList[T, nodeType <: AbstractNode[T]] {
   def removeAfter(node: nodeType): Unit
 
   def removeBeginning
+
+  def size = {
+    var currSize = 0
+    var currPos = head orElse None
+    while (currPos != None) {
+      currPos = currPos.get.next.asInstanceOf[Option[nodeType]]
+      currSize = currSize + 1
+    }
+    currSize
+  }
 }
 

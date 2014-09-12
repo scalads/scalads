@@ -1,18 +1,16 @@
-package ds.linkedlist;
+package ds.linkedlist
 
-class SinglyLinkedListWithSentinel[T] extends LinkedList[T, Node[T]] {
-  val head:Option[Node[T]] = Some(new Node(null.asInstanceOf[T])) // default value of T
-
-  def insertBeginning(newNode: Node[T]) = {
+class SinglyLinkedListWithSentinel[T] extends LinkedList[T, SingleNode[T]](Some(new SingleNode(null.asInstanceOf[T]))) {
+  def insertBeginning(newNode: SingleNode[T]) = {
     insertAfter(head.get, newNode)
   }
 
-  def insertAfter(node: Node[T], newNode: Node[T]): Unit = {
+  def insertAfter(node: SingleNode[T], newNode: SingleNode[T]): Unit = {
     newNode.next = node.next
     node.next = Some(newNode)
   }
 
-  def removeAfter(node: Node[T]): Unit = {
+  def removeAfter(node: SingleNode[T]): Unit = {
     node.next = node.next match {
       case Some(nextNode) => nextNode.next
       case None => None
@@ -23,11 +21,11 @@ class SinglyLinkedListWithSentinel[T] extends LinkedList[T, Node[T]] {
     removeAfter(head.get)
   }
 
-  def size = {
+  override def size = {
     var currSize = 0
-    var node = head.get.next
-    while (node != None) {
-      node = node.get.next
+    var currPos = head.get.next orElse None
+    while (currPos != None) {
+      currPos = currPos.get.next
       currSize = currSize + 1
     }
     currSize
