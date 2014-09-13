@@ -11,10 +11,7 @@ class SinglyLinkedListWithSentinel[T] extends LinkedList[T, SingleNode[T]](Some(
   }
 
   def removeAfter(node: SingleNode[T]): Unit = {
-    node.next = node.next match {
-      case Some(nextNode) => nextNode.next
-      case None => None
-    }
+    node.next = node.next.flatMap(_.next)
   }
 
   def removeBeginning = {
@@ -23,9 +20,9 @@ class SinglyLinkedListWithSentinel[T] extends LinkedList[T, SingleNode[T]](Some(
 
   override def size = {
     var currSize = 0
-    var currPos = head.get.next orElse None
-    while (currPos != None) {
-      currPos = currPos.get.next
+    var currNode = head.flatMap(_.next)
+    while (currNode != None) {
+      currNode = currNode.get.next
       currSize = currSize + 1
     }
     currSize

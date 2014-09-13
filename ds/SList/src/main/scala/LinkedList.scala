@@ -29,9 +29,9 @@ abstract class LinkedList[T, nodeType <: AbstractLinkedNode[T]](var head: Option
 
   def size = {
     var currSize = 0
-    var currPos = head orElse None
-    while (currPos != None) {
-      currPos = currPos.get.next.asInstanceOf[Option[nodeType]]
+    var currNode = head orElse None
+    while (currNode != None) {
+      currNode = currNode.flatMap(_.next).asInstanceOf[Option[nodeType]]
       currSize = currSize + 1
     }
     currSize

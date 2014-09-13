@@ -12,16 +12,10 @@ class SinglyLinkedList[T] extends LinkedList[T, SingleNode[T]] {
   }
 
   def removeAfter(node: SingleNode[T]): Unit = {
-    node.next = node.next match {
-      case Some(nextNode) => nextNode.next
-      case None => None
-    }
+    node.next = node.next.flatMap(_.next)
   }
 
   def removeBeginning = {
-    head = head match {
-      case Some(node) => node.next
-      case _ => None
-    }
+    head = head.flatMap(_.next)
   }
 }
