@@ -1,6 +1,29 @@
 package algos.divideandconquer
 
 class MaximalSum{
+  def optimized(lst: List[Int]) = {
+    case class Sum(startIndex:Int, endIndex:Int, sum:Int)
+
+    var currentSum = Sum(0, 0, lst(0))
+    var maxSum = Sum(0, 0, lst(0))
+
+    for (i <- 0 until lst.length) {
+      if (lst(i) >= maxSum.sum && lst(i) > currentSum.sum + lst(i)) {
+        maxSum = Sum(i, i, lst(i))
+        currentSum = maxSum
+      } else if (currentSum.sum + lst(i) > maxSum.sum) {
+        maxSum = Sum(currentSum.startIndex, i, currentSum.sum + lst(i))
+        currentSum = maxSum
+      } else {
+        if (lst(i) >= currentSum.sum) {
+          currentSum = Sum(i, i, lst(i))
+        } else {
+          currentSum = Sum(currentSum.startIndex, i, currentSum.sum + lst(i))
+        }
+      }
+    }
+    (maxSum.startIndex, maxSum.endIndex, maxSum.sum)
+  }
   def bruteForce(lst: List[Int]) = {
     var maxSum = Int.MinValue
     var maxStartIndex = -1
@@ -22,6 +45,6 @@ class MaximalSum{
 
 object MaximalSum {
   def apply(lst: List[Int]) = {
-    new MaximalSum().bruteForce(lst)
+    new MaximalSum().optimized(lst)
   }
 }
