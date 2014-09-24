@@ -41,6 +41,8 @@ class MaximalSum{
     }
     (maxStartIndex, maxEndIndex, maxSum)
   }
+
+  def recursive(lst:List[Int]) = ???
 }
 
 object MaximalSum {
